@@ -40,4 +40,7 @@ trigger AccountTrigger on Account (before insert, after insert) {
         //Trigger should only fire on insert.   
         AccountHelper.defaultContact(Trigger.new);
        }
+
+     AccountTriggerHandler handler = new AccountTriggerHandler();
+     handler.run();
     }
