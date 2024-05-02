@@ -28,19 +28,46 @@ Always ensure that your helper methods are bulk-safe to handle multiple records 
 */
 public with sharing class AccountHelper {
     
-    public void setTypeProspect(SObject objects){
-
+    public static void setTypeProspect(List<Account> acctNull){
+        for (Account acc : acctNull) {
+            if (acc.Type == null) {
+                acc.Type = 'Prospect';
+            }
+        }
     }
 
-    void addressCopy(){
-
+    public static void addressCopy(List<Account> acctAddress){
+        for(Account account : acctAddress) {
+            //Use null-coalescing operator ??, which returns the left-hand operand if it's not null, 
+            //otherwise it returns the right-hand operand.
+            account.BillingStreet = account.ShippingStreet ?? '';
+            account.BillingCity = account.ShippingCity ?? '';
+            account.BillingState = account.ShippingState ?? '';
+            account.BillingPostalCode = account.ShippingPostalCode ?? '';
+            account.BillingCountry = account.ShippingCountry ?? '';
     }
-
-    //[public | private ] [static] data_type setRating (input parameters) {
-    //  The body of the method
-    //}
-
-    //[public | private ] [static] data_type defaultContact (input parameters) {
-    //  The body of the method
-    //}
 }
+
+    public static void setRating (List<Account> acctRating) {
+        for (Account acc : acctRating) {
+            if (acc.Phone != null && acc.Website != null && acc.Fax != null) {
+                acc.Rating = 'Hot';
+            }
+        }
+    }
+
+    public static void defaultContact (List<Account> acctContacts) {
+        List<Contact> newContacts = new List<Contact>();
+        for(Account acc : acctContacts) {
+            // Create a new contact with default values
+            newContacts.add(new Contact(LastName = 'DefaultContact', Email = 'default@email.com', AccountId = acc.Id));
+          
+        }
+       
+       // Insert the new contacts
+        Database.DMLOptions dml = new Database.DMLOptions();
+        dml.DuplicateRuleHeader.AllowSave = true;
+        dml.DuplicateRuleHeader.RunAsCurrentUser = true;
+        Database.insert(newContacts, dml);
+      } 
+    }
