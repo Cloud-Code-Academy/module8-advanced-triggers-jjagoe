@@ -19,7 +19,7 @@ https://www.salesforceben.com/12-salesforce-apex-best-practices/
 https://developer.salesforce.com/blogs/developer-relations/2015/01/apex-best-practices-15-apex-commandments
 */
 trigger AnotherOpportunityTrigger on Opportunity (before insert, after insert, before update, after update, before delete, after delete, after undelete) {
-  /*  if (Trigger.isBefore){
+ /*   if (Trigger.isBefore){
         if (Trigger.isInsert){
             // Set default Type for new Opportunities
             Opportunity opp = Trigger.new[0];
@@ -74,7 +74,7 @@ trigger AnotherOpportunityTrigger on Opportunity (before insert, after insert, b
     - Sends an email notification to the owner of the Opportunity when it gets deleted.
     - Uses Salesforce's Messaging.SingleEmailMessage to send the email.
     */
-   /* private static void notifyOwnersOpportunityDeleted(List<Opportunity> opps) {
+  /*  private static void notifyOwnersOpportunityDeleted(List<Opportunity> opps) {
         List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
         for (Opportunity opp : opps){
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
